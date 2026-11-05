@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<!--
+    Cross-browser suite. Same tests run against Chrome, Firefox, and Edge
+    using TestNG <parameter>. BaseTest picks up the browser via @Parameters.
+
+    Suite-level parallel="tests" means the three browser <test> blocks run
+    concurrently. Within each, methods run sequentially.
+-->
+<suite name="Amazon Cross-Browser Suite" verbose="1" parallel="tests" thread-count="3">
+
+    <listeners>
+        <listener class-name="com.amazon.automation.listeners.FrameworkListener"/>
+        <listener class-name="com.amazon.automation.listeners.TestListener"/>
+    </listeners>
+
+    <test name="Chrome">
+        <parameter name="browser" value="chrome"/>
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.amazon.automation.tests"/>
+        </packages>
+    </test>
+
+    <test name="Firefox">
+        <parameter name="browser" value="firefox"/>
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.amazon.automation.tests"/>
+        </packages>
+    </test>
+
+    <test name="Edge">
+        <parameter name="browser" value="edge"/>
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.amazon.automation.tests"/>
+        </packages>
+    </test>
+
+</suite>

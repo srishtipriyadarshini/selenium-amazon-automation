@@ -1,0 +1,16 @@
+target/
+.idea/
+.vscode/
+*.iml
+*.class
+
+logs/
+Current_Test_Results/
+Archived_Test_Results/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Local config overrides
+*.local.properties

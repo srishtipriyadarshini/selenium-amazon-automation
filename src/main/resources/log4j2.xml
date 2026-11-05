@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="WARN" packages="">
+
+    <Properties>
+        <Property name="LOG_DIR">${sys:user.dir}/logs</Property>
+        <Property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} %X{testName} - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+
+        <RollingFile name="RollingFile"
+                     fileName="${LOG_DIR}/framework.log"
+                     filePattern="${LOG_DIR}/framework-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+
+        <!--
+          Routing appender - sends each test's logs to a file named after
+          the test. When ThreadContext.testName is not set (framework setup
+          before the first test), it falls back to ${ctx:testName:-framework}
+          which writes to "framework.log" in the by-test folder.
+        -->
+        <Routing name="PerTestRouting">
+            <Routes pattern="$${ctx:testName}">
+                <Route>
+                    <File name="PerTest-${ctx:testName}"
+                          fileName="${LOG_DIR}/by-test/${ctx:testName}.log">
+                        <PatternLayout pattern="${PATTERN}"/>
+                    </File>
+                </Route>
+                <Route ref="RollingFile" key="$${ctx:testName}"/>
+            </Routes>
+        </Routing>
+
+    </Appenders>
+
+    <Loggers>
+        <!--
+          Mute Selenium's chatty INFO logs that bury our own.
+          WARN means we still hear about real problems.
+        -->
+        <Logger name="org.openqa.selenium" level="WARN" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="org.apache.http" level="WARN" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+
+        <Root level="DEBUG">
+            <AppenderRef ref="Console" level="INFO"/>
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="PerTestRouting"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="Amazon Parallel Suite" verbose="1" parallel="methods" thread-count="3">
+
+    <listeners>
+        <listener class-name="com.amazon.automation.listeners.FrameworkListener"/>
+        <listener class-name="com.amazon.automation.listeners.TestListener"/>
+    </listeners>
+
+    <test name="Parallel Methods">
+        <classes>
+            <class name="com.amazon.automation.tests.HomePageTests"/>
+            <class name="com.amazon.automation.tests.SearchTests"/>
+            <class name="com.amazon.automation.tests.LoginTests"/>
+            <class name="com.amazon.automation.tests.ProductAndCartTests"/>
+            <class name="com.amazon.automation.tests.AccountTests"/>
+            <class name="com.amazon.automation.tests.ContactUsTests"/>
+        </classes>
+    </test>
+
+</suite>

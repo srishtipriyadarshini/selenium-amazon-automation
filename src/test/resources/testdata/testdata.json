@@ -1,0 +1,19 @@
+{
+  "login": {
+    "invalidEmail": "definitely-not-an-email-address",
+    "unregisteredEmail": "qa-test-no-account-987654321@example.com"
+  },
+  "search": {
+    "validQuery": "wireless mouse",
+    "invalidQuery": "asdfghjkl-no-such-thing-12345"
+  },
+  "signup": {
+    "name": "QA Test User",
+    "email": "qa.test.user.999999@example.com",
+    "password": "Sample-Password-123",
+    "wrongConfirm": "Different-Password-456"
+  },
+  "contact": {
+    "expectedKeyword": "Customer Service"
+  }
+}
